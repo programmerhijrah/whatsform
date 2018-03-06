@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WhatsForm | Programmer Hijrah</title>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<link id="favicon" rel="shortcut icon" href="assets/favicon.png" type="image/png" />
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container text-center">
+		<div class="form-box">
+			<h2>WhatsForm App</h2>
+			<p>Kirim pesan WhatsApp tanpa harus mengesave nomor hape di contact list.</p>
+			<p>Buka di hape otomatis akan membuka App WA anda.</p>
+			<form id="waform" action="#">
+				<div class="form-group">
+					<input id="phone" type="number" class="form-input" placeholder="No WA diawali kode 62" required>
+				</div>
+				<div class="form-group">
+					<textarea id="message" rows="10" class="form-input" placeholder="Masukan pesan Anda" required></textarea>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="button">Send</button>
+				</div>
+			</form>
+		</div>
+		<br>
+		<br>
+		<p>WhatsApp API documentation <a href="https://faq.whatsapp.com/id/android/26000030/?lang=id" target="_blank">here</a><br>
+		&copy; 2018. Made with love by <a href="https://programmerhijrah.github.io/" target="_blank">Programmer Hijrah</a>.</p>
+	</div>
+	<div class="wa-bg"></div>
+	
+	<a href="https://github.com/programmerhijrah/whatsform" target="_blank">
+		<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub">
+	</a>
+
+	<script type="text/javascript">
+		var WaForm = {
+			init: function() {
+				this.getForm().addEventListener('submit', this.submit);
+			},
+			getForm: function() {
+				return document.getElementById('waform');
+			},
+			submit: function( event ) {
+				event.preventDefault();
+				var msg = WaForm.getMsg( document.getElementById('message').value ),
+					phone = document.getElementById('phone').value;
+
+				if (WaForm.isMobile()) {
+					window.open('whatsapp://send?phone=' + phone + '&text=' + msg, '_blank');
+				} else {
+					window.open('https://api.whatsapp.com/send?phone=' + phone + '&text=' + msg, '_blank');
+				}
+			},
+			getMsg: function( text ) {
+				return encodeURIComponent(text);
+			},
+			isMobile: function() {
+				return navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i);
+			}
+		};
+		WaForm.init(); // init app
+	</script>
+</body>
+</html>
